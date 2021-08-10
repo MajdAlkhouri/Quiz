@@ -50,44 +50,42 @@ let rightquestions = 0;
 let currentQuestion = 0;
 
 
-function init() {
+function init() { 
     document.getElementById('all-questions').innerHTML = questions.length;
 
     showQuestion();
 
 }
 
-
+function showEndScreen(){
+    document.getElementById('endscreen').style = '';
+    document.getElementById('questionbody').style = 'display : none';
+    document.getElementById('amount-Of-Questions').innerHTML = questions.length;
+    document.getElementById('amount-right-questions').innerHTML = rightquestions;
+    document.getElementById('header-image').src = 'img/win.jpg';
+}
 
 function showQuestion() {
-
-    if (currentQuestion >= questions.length) {
-        // TODO : Show End Screen
-
-        document.getElementById('endscreen').style = '';
-        document.getElementById('questionbody').style = 'display : none';
-
-        document.getElementById('amount-Of-Questions').innerHTML = questions.length;
-
-        document.getElementById('amount-right-questions').innerHTML = rightquestions;
-
+    let isQuizFinnished = currentQuestion >= questions.length;
+    if (isQuizFinnished) {
+       showEndScreen();
     } else {
-
-        let question = questions[currentQuestion];
-
-        document.getElementById('question-number').innerHTML = currentQuestion + 1;
-
-        document.getElementById('questiontext').innerHTML = question['question'];
-        document.getElementById('answer_1').innerHTML = question['answer_1'];
-        document.getElementById('answer_2').innerHTML = question['answer_2'];
-        document.getElementById('answer_3').innerHTML = question['answer_3'];
-        document.getElementById('answer_4').innerHTML = question['answer_4'];
-
+        showNextQuestion();
     }
 }
 
+function showNextQuestion(){
+    let question = questions[currentQuestion];
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
+    document.getElementById('questiontext').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+}
 
-function answer(selection) {
+
+function answer(selection) { //selection ist ein String
     let question = questions[currentQuestion];
     console.log('Selected answer is ', selection)
     let selectedQuestionNumber = selection.slice(-1);
@@ -102,11 +100,9 @@ function answer(selection) {
 
         rightquestions++;
 
-    } else {
-
+    } else { // Überprüft, ob "selection" richtig ist und färbt die buttons rot oder grün
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
-
     }
 
     document.getElementById('next-button').disabled = false;
@@ -119,7 +115,7 @@ function nextQuestion() {
     currentQuestion++; // die frage nummer erhöhen Z.B. von 0 auf 1
 
 
-    document.getElementById('next-button').disabled = true;
+    document.getElementById('next-button').disabled = true; //??
 
     resetAnswerButtons();
 
@@ -128,7 +124,7 @@ function nextQuestion() {
 
 }
 
-function resetAnswerButtons() {
+function resetAnswerButtons() { // um die farben (rot und grün) beim nächsten frage zu entfernen.
     document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_1').parentNode.classList.remove('bg-success');
     document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
