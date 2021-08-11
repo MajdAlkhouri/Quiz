@@ -71,6 +71,15 @@ function showQuestion() {
        showEndScreen();
     } else {
         showNextQuestion();
+
+        let percent = (currentQuestion + 1) / questions.length;
+        percent = Math.round(percent * 100); // um den zahl zu runden 
+        document.getElementById('progress-bar').innerHTML= `${percent}%`;
+        document.getElementById('progress-bar').style= `width: ${percent}%;bb `;
+
+
+        console.log('Fortschritt', percent); 
+
     }
 }
 
