@@ -42,3 +42,25 @@ body{
 .text-center {
     text-align: center;
 }
+
+.progress-bar { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #212529 !important;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #159e0c !important;
+    transition: width .6s ease;
+}
+
+.progress {
+    display: flex;
+    height: 1.5rem !important;
+    overflow: hidden;
+    font-size: 0.99rem !important;
+    background-color: #09ffc6 !important;
+    border-radius: 0rem !important;
+}
+
