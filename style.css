@@ -64,3 +64,9 @@ body{
     border-radius: 0rem !important;
 }
 
+.button-row{
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+

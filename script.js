@@ -1,46 +1,46 @@
 let questions = [
     {
-        "question": "Wer hat HTML erfunden?",
-        "answer_1": "Robbie Williams",
-        "answer_2": "lady Gaga",
-        "answer_3": "Tim Berners-lee",
-        "answer_4": "Justin Bieber",
+        "question": "Das flächenmäßig kleinste Bundesland heißt??",
+        "answer_1": "Berlin",
+        "answer_2": "Hamburg",
+        "answer_3": " Bremen",
+        "answer_4": "Saarland",
         "right_answer": 3
     },
 
     {
-        "question": "Was bedeutet das HTML Tag &lt;a&gt;?",
-        "answer_1": "Text Fett",
-        "answer_2": "Container",
-        "answer_3": "Ein Link",
-        "answer_4": "Kursiv",
+        "question": "Was ist die “Goldene Himbeere”??",
+        "answer_1": "Eine Nachspeise aus Russland ",
+        "answer_2": "Das teuerste Schmuckstück der Welt",
+        "answer_3": "Ein Preis für die schlechteste Leistung innerhalb eines Filmjahres",
+        "answer_4": "Das Symbol einer Sekte ",
         "right_answer": 3
     },
 
     {
-        "question": "Wie bindet man eine Website in eine Website ein?",
-        "answer_1": "&lt;iframe&gt;, &lt;frame&gt;, and &lt;frameset&gt;",
-        "answer_2": "&lt;iframe&gt;",
-        "answer_3": "&lt;frame&gt;",
-        "answer_4": " &lt;frameset&gt;",
+        "question": "Welche Gürtelfarbe existiert nicht im Kampfsport Karate?",
+        "answer_1": "Schwarz",
+        "answer_2": "rot",
+        "answer_3": "grün",
+        "answer_4": "Braun",
         "right_answer": 2
     },
 
     {
-        "question": "Wie definiert man in JavaScript eine Variable ?",
-        "answer_1": "let 100 = rate;",
-        "answer_2": "100 = let rate;",
-        "answer_3": "rate = 100;",
-        "answer_4": "let rate = 100;",
+        "question": "Einen Feinschmecker nennt man auch?",
+        "answer_1": "Gourmed",
+        "answer_2": "Genießer",
+        "answer_3": "Leckermäulchen",
+        "answer_4": "Gourmet",
         "right_answer": 4
     },
 
     {
-        "question": "Wie wählst du alle Elemente vom typ &lt;a&gt; mit dem attribut title aus?",
-        "answer_1": "a [title] {...}",
-        "answer_2": "a > title {...}",
-        "answer_3": "a.title {...}",
-        "answer_4": "a=title {...}",
+        "question": "Mit welcher Tiergruppe sind die Dinosaurier am engsten verwandt?",
+        "answer_1": "Vögeln",
+        "answer_2": "Eidechsen",
+        "answer_3": "Alligatoren",
+        "answer_4": "Affen",
         "right_answer": 1
     },
 ];
@@ -49,41 +49,47 @@ let rightquestions = 0;
 
 let currentQuestion = 0;
 
+let Audio_Win = new Audio('audio/win.mp3');
+let Audio_Fail = new Audio('audio/wrong.mp3'); 
 
-function init() { 
+
+
+function init() {
     document.getElementById('all-questions').innerHTML = questions.length;
 
     showQuestion();
 
 }
 
-function showEndScreen(){
-    document.getElementById('endscreen').style = '';
-    document.getElementById('questionbody').style = 'display : none';
+function showEndScreen() {
+    document.getElementById('endscreen').style = ''; //End screen zu zeigen
+    document.getElementById('questionbody').style = 'display : none'; // questionbody zu blenden
     document.getElementById('amount-Of-Questions').innerHTML = questions.length;
     document.getElementById('amount-right-questions').innerHTML = rightquestions;
     document.getElementById('header-image').src = 'img/win.jpg';
 }
 
 function showQuestion() {
-    let isQuizFinnished = currentQuestion >= questions.length;
-    if (isQuizFinnished) {
-       showEndScreen();
+    let isQuizFinnished = currentQuestion >= questions.length; //wenn aktuelle frage gleich oder gröẞer 7 ist dann
+    if (isQuizFinnished) { //
+        showEndScreen(); //dann  zeig die Endscreen  
     } else {
+        updateProgressBar();
+
         showNextQuestion();
-
-        let percent = (currentQuestion + 1) / questions.length;
-        percent = Math.round(percent * 100); // um den zahl zu runden 
-        document.getElementById('progress-bar').innerHTML= `${percent}%`;
-        document.getElementById('progress-bar').style= `width: ${percent}%;bb `;
-
-
-        console.log('Fortschritt', percent); 
-
+ 
     }
 }
 
-function showNextQuestion(){
+function updateProgressBar(){
+    let percent = (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100); // um den zahl zu runden !!
+    document.getElementById('progress-bar').innerHTML = `${percent}%`;
+    document.getElementById('progress-bar').style = `width: ${percent}% `;
+
+}
+
+function showNextQuestion() {
     let question = questions[currentQuestion];
     document.getElementById('question-number').innerHTML = currentQuestion + 1;
     document.getElementById('questiontext').innerHTML = question['question'];
@@ -96,26 +102,30 @@ function showNextQuestion(){
 
 function answer(selection) { //selection ist ein String
     let question = questions[currentQuestion];
-    console.log('Selected answer is ', selection)
     let selectedQuestionNumber = selection.slice(-1);
     console.log('selectedQuestionNumber is ', selectedQuestionNumber);
     console.log('Current question is ', question['right_answer']);
 
     let idOfRightAnswer = `answer_${question['right_answer']}`;
 
-    if (selectedQuestionNumber == question['right_answer']) {
-        console.log('Richtige Antwort!!');
+    if (richtigAnswerSelected(selectedQuestionNumber)) { //wenn die richtige antwort getroffen wurde
         document.getElementById(selection).parentNode.classList.add('bg-success');
 
+        Audio_Win.play();
         rightquestions++;
 
     } else { // Überprüft, ob "selection" richtig ist und färbt die buttons rot oder grün
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        Audio_Fail.play();
     }
 
     document.getElementById('next-button').disabled = false;
 
+}
+
+function richtigAnswerSelected(selectedQuestionNumber){
+ return  selectedQuestionNumber == questions['right_answer']; //WAS IST RETURN
 }
 
 
@@ -148,5 +158,15 @@ function resetAnswerButtons() { // um die farben (rot und grün) beim nächsten 
 }
 
 
+function restartGame() {
+    document.getElementById('header-image').src = 'img/image.jpg';
+    document.getElementById('questionbody').style = ''; //questionbody wieder zu zeigen 
+    document.getElementById('endscreen').style = 'display:none'; //Endscreen auszublenden
 
+    rightquestions = 0;
+
+    currentQuestion = 0;
+
+    init();
+}
 
